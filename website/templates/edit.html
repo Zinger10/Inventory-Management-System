@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block title %}Edit Products{% endblock %} {% block
+    content %}
+    <br>
+    <br>
+    <h1>Edit Product</h1>
+   
+    <form action="/update" method="post">
+        <label for="product-id">Product ID:</label>
+        <input type="text" id="product-id" name="product_id" value="{{ product.id }}" readonly>
+        <br>
+        <label for="product-name">Product Name:</label>
+        <input type="text" id="product-name" name="product_name" value="{{ product.name }}"  readonly>
+        <br>
+        <label for="product-quantity">Product Quantity:</label>
+        <input type="text" id="product-quantity" name="product_quantity" value="{% if product.quantity is not none %}{{ product.quantity }}{% endif %}"  readonly>
+        <br>
+        <label for="product-amount">Insert amount:</label>
+        <input type="text" id="amount" name="amount" value="" placeholder="Enter a quantity">
+        <br>
+        <button type="submit" class="btn btn-primary" value = "change">Save Changes</button>
+    </form>
+    
+    {% endblock %}
