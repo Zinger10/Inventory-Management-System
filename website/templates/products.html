@@ -8,10 +8,10 @@
           <tr>
             <th>Product ID</th>
             <th>Name</th>
-            <th>Product Price</th>
-            <th>Product Quantity</th>
-            <th>Total Price</th>
-            <th>Operations</th>
+            <th>Price (RM)</th>
+            <th>Quantity</th>
+            <th>Total Price (RM)</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -23,17 +23,85 @@
                     <td>{{ product.quantity }}</td>
                     <td>{{ product.quantity * product.price}}</td>
                     <td>
-          
-                      <form method="post" action="/edit_products">
-                        <input type="hidden" name="product_id" value="{{ product.id }}">
-                        <button type="submit" value="edit">Edit</button>
-                      </form>
-                       
+                      <div class="row justify-content-center">
+                        <form method="post" action="/edit_products">
+                          <input type="hidden" name="product_id" value="{{ product.id }}">
+                          <div class="col-6 text-center">
+                            <button type="submit" class="btn btn-success">Edit</button>
+                          </div>
+                        </form>
+                    
+                        <form method="post" action="/delete_products">
+                          <input type="hidden" name="product_id" value="{{ product.id }}">
+                          <div class="col-6 text-center">
+                            <i class= "bi bi-trash" ></i>
+                            <button type="submit" class="btn btn-danger" value="edit">Delete</button>
+                          </div>
+                        </form>
+                      </div>
                     </td>
                 </tr>
-            {% endfor %}
+        {% endfor %}
         </tbody>
       </table>
+      
+    
+      
+    <a href =""   name="id-target" data-bs-toggle="modal" data-bs-target="#myModal">Add Product</a>
+                
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form method="post" id="form-content">
+                <div class="form-group">
+                  <label for="product-id" class="col-form-label">New Product Id:</label>
+                  <textarea name="id-content" class="form-control" id="id-content"></textarea>
+               
+                  <label for="product-name" class="col-form-label">New Product name:</label>
+                  <textarea name="name-content" class="form-control" id="name-content"></textarea>
+                
+                
+                  <label for="product-price" class="col-form-label">New Product Price:</label>
+                  <textarea name="price-content" class="form-control" id="price-content"></textarea>
+                
+            
+                  <label for="product-quantity" class="col-form-label">New Product Quantity:</label>
+                  <textarea name="quantity-content" class="form-control" id="quantity-content"></textarea>
+             </div>   
+            </div>
+            <div class="modal-footer">
+              <button type="submit" onClick="addProduct()" class="btn btn-primary" name="submit" value="content">Confirm rename</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
 
-  <div>
+    
+<script>
+
+function addProduct() {
+  var id = document.getElementById("id-content").value;
+  var name = document.getElementById("name-content").value;
+  var price = document.getElementById("price-content").value;
+  var quantity = document.getElementById("quantity-content").value;
+
+  
+  fetch("/add", {
+    method: "POST",
+    body: JSON.stringify({ id: id, name: name , price : price, quantity : quantity }),
+  }).then((_res) => {
+    window.location.href = "/store";
+  });
+}
+
+</script>
+
   {% endblock %}

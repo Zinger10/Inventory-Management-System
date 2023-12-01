@@ -53,11 +53,7 @@ def products():
 
 
 
-
-   
-'''
-
-'''
+'''The route where current product information is filled'''
 
 @views.route('/edit_products', methods=['GET', 'POST'])
 @login_required
@@ -105,9 +101,31 @@ def update():
     return render_template("products.html", user = current_user )
     
 
-'''
-new_note = Note(data=note, user_id=current_user.id)  #providing the schema for the note 
-db.session.add(new_note) #adding the note to the database 
-db.session.commit()
-flash('Note added!', category='success')'''
+    
+
+
+
+        
+
+
+@views.route('/add', methods=['POST'])
+@login_required
+def add():
+
+    product = json.loads(request.data)
+
+    product_id = int(product['id'])
+    product_name = product['name']
+    product_price = product['price']
+    product_quantity = product['quantity']
+
+    new_product = Product(id = product_id, name = product_name, price = product_price, quantity = product_quantity)
+
+
+    db.session.add(new_product)
+    db.session.commit()
+
+    
+
+    return jsonify({})
     
