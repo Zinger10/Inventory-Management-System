@@ -11,7 +11,7 @@
             <th>Price (RM)</th>
             <th>Quantity</th>
             <th>Total Price (RM)</th>
-            <th>Actions</th>
+            <th>Operations</th>
           </tr>
         </thead>
         <tbody>
@@ -23,22 +23,12 @@
                     <td>{{ product.quantity }}</td>
                     <td>{{ product.quantity * product.price}}</td>
                     <td>
-                      <div class="row justify-content-center">
-                        <form method="post" action="/edit_products">
-                          <input type="hidden" name="product_id" value="{{ product.id }}">
-                          <div class="col-6 text-center">
-                            <button type="submit" class="btn btn-success">Edit</button>
-                          </div>
-                        </form>
-                    
-                        <form method="post" action="/delete_products">
-                          <input type="hidden" name="product_id" value="{{ product.id }}">
-                          <div class="col-6 text-center">
-                            <i class= "bi bi-trash" ></i>
-                            <button type="submit" class="btn btn-danger" value="edit">Delete</button>
-                          </div>
-                        </form>
-                      </div>
+          
+                      <form method="post" action="/edit_products">
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <button type="submit" value="edit">Edit</button>
+                      </form>
+                       
                     </td>
                 </tr>
         {% endfor %}
@@ -47,9 +37,9 @@
       
     
       
-    <a href =""   name="id-target" data-bs-toggle="modal" data-bs-target="#myModal">Add Product</a>
+    <a href =""   name="id-target" data-toggle="modal" data-target="#rename-input-box">Add Product</a>
                 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="rename-input-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -93,6 +83,7 @@ function addProduct() {
   var price = document.getElementById("price-content").value;
   var quantity = document.getElementById("quantity-content").value;
 
+
   
   fetch("/add", {
     method: "POST",
@@ -102,6 +93,8 @@ function addProduct() {
   });
 }
 
+
 </script>
+
 
   {% endblock %}
