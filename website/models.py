@@ -44,3 +44,16 @@ class Product(db.Model):
     quantity = db.Column(db.Integer)
     price = db.Column(db.DECIMAL(precision=10, scale=2))
    
+
+class Product2(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(10000))
+    quantity = db.Column(db.Integer)
+    price = db.Column(db.DECIMAL(precision=10, scale=2))
+
+class Product3(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(10000))
+    quantity = db.Column(db.Integer)
+    price = db.Column(db.DECIMAL(precision=10, scale=2))
+   

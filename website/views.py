@@ -128,4 +128,18 @@ def add():
     
 
     return jsonify({})
-    
+
+@views.route('/delete', methods=['POST'])
+@login_required
+def delete():
+
+    product_id = request.form.get('product_id')#Gets the product id from the HTML 
+
+    product = Product.query.filter_by(id=product_id).first() # # Retrieve the product from the database based on the ID 
+
+        
+ 
+    db.session.delete(product)
+    db.session.commit()
+
+    return redirect(url_for('views.products'))
