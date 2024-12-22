@@ -1,12 +1,6 @@
-from .import db
+from .import db # "." means from init
 from flask_login import UserMixin # provides methods like is_authenticated(), is_active(), and is_anonymous(), which help to implement the user authentication system more easily.
 from sqlalchemy.sql import func
-
-class Note(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    data = db.Column(db.String(10000))
-    date = db.Column(db.DateTime(timezone=True), default=func.now())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # one to many, one user have many notes, user.id from sql database
 
 
 
@@ -16,7 +10,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
-    notes = db.relationship('Note') # create one to many relationship with Note
+   
+
     
     
 
@@ -39,21 +34,20 @@ is correct or not instead of having to write a method to do that yourself.
     
 
 class Product(db.Model):
+    __tablename__ = 'Store1'
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(10000))
     quantity = db.Column(db.Integer)
     price = db.Column(db.DECIMAL(precision=10, scale=2))
+    
+    #repr returns the object as string
+    def __repr__(self):
+        return f'<Product id={self.id} x={self.name} y={self.quantity}>'
    
 
 class Product2(db.Model):
+    __tablename__ = 'Store2'
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(10000))
     quantity = db.Column(db.Integer)
     price = db.Column(db.DECIMAL(precision=10, scale=2))
-
-class Product3(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(10000))
-    quantity = db.Column(db.Integer)
-    price = db.Column(db.DECIMAL(precision=10, scale=2))
-   

@@ -1,6 +1,10 @@
-{% extends "base.html" %} {% block title %}Products Up{% endblock %} {% block
+{% extends "base.html" %} {% block title %}Products Store 1{% endblock %} {% block
   content %}
+
+ 
   <br>
+  <br>
+  <h1 class="mt-4 mb-4"> {{ tablename1 }}</h1>
   <br>
   <div class="table-responsive">
     <table class="table table-hover text-center">
@@ -10,7 +14,7 @@
             <th>Name</th>
             <th>Price (RM)</th>
             <th>Quantity</th>
-            <th>Total Price (RM)</th>
+           <!--<th>Total Sales (RM)</th>--> 
             <th>Actions</th>
           </tr>
         </thead>
@@ -21,23 +25,38 @@
                     <td>{{ product.name }}</td>
                     <td>{{ product.price }}</td>
                     <td>{{ product.quantity }}</td>
-                    <td>{{ product.quantity * product.price}}</td>
+                   <!-- <td>{{ product.quantity * product.price}}</td>-->
                     <td>
                       <div class="row justify-content-center">
-                        <div class="col-md-4 text-center">
+                        <div class="col-md-3 text-center">
                           <form method="post" action="/edit_products">
                             <input type="hidden" name="product_id" value="{{ product.id }}">
                             <button type="submit" class="btn btn-success">Edit</button>
                           </form>
                         </div>
                         
-                        <div class="col-md-4 text-center">
+                      {%if user.id == 3%}
+                        <div class="col-md-3 text-center">
                           <form method="post" action="/delete">
                             <input type="hidden" name="product_id" value="{{ product.id }}" id ="product_id">
-                            <button type="submit" class = "btn btn-danger">Delete
+                            
+                              <button type="submit" class = "btn btn-danger">Delete
+
+                            
+                            
                             </button>
                           </form>
                         </div>
+                          {%elif user.id == 1%}
+                            <div class="col-md-3 text-center">
+                              <form method="post" action="/delete">
+                                <input type="hidden" name="product_id" value="{{ product.id }}" id ="product_id">
+                                
+                                  <button type="submit"disabled class = "btn btn-danger">Delete
+                                 </button>
+                              </form>
+                          </div>
+                          {%endif%}
                       </div>
                     </td>
                 </tr>
@@ -46,9 +65,9 @@
       </table>
       
     
-      
-    <a href =""   name="id-target" data-bs-toggle="modal" data-bs-target="#myModal">Add Product</a>
-                
+    {%if user.id == 3%}
+      <a href =""   name="id-target" data-bs-toggle="modal" data-bs-target="#myModal">Add Product</a>
+    {%endif%}         
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -116,4 +135,4 @@ function deleteProduct(){
 
 </script>
 
-  {% endblock %}
+{% endblock %}

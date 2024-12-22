@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block title %}Edit Products2{% endblock %} 
+{% block content %}
+    <br>
+    <br>
+    <h1>Edit Product</h1>
+    {%if user.id == 3 or user.id == 2 %}
+
+        <form action="/update2" method="post">
+            <label for="product-id">Product ID:</label>
+            <input type="text" id="product-id" name="product_id" value="{{ product2.id }}" readonly>
+            <br>
+            <label for="product-name">Product Name:</label>
+            <input type="text" id="product-name" name="product_name" value="{{ product2.name }}"  readonly>
+            <br>
+            <label for="product-quantity">Product Quantity:</label>
+            <input type="text" id="product-quantity" name="product_quantity" value="{% if product2.quantity is not none %}{{ product2.quantity }}{% endif %}"  readonly>
+            <br>
+            <label for="product-amount">Insert amount:</label>
+            <input type="text" id="amount" name="amount" value="" placeholder="Enter a quantity">
+            <br>
+            <button type="submit" class="btn btn-primary" value = "change">Save Changes</button>
+        </form>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+<script>
+    const socket = io.connect();  // Connect to the SocketIO server
+
+    socket.on('connect', () => {
+        console.log('Connected to server');
+    });
+
+    // Listen for 'product_updated' event
+    socket.on('product_updated', (data) => {
+        console.log('Product updated:', data);
+        // Display a notification about the updated product using JavaScript (e.g., with an alert)
+        alert(`Product ID ${data.id} is updated with quantity ${data.quantity}!`);
+    });
+</script>
+    {%endif%}
+{% endblock %}

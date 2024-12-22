@@ -9,10 +9,10 @@
     <link
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     
 
-    
 
     <title>{% block title %}Home{% endblock %}</title>
   </head>
@@ -27,45 +27,68 @@
           {% if user.is_authenticated %}
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">Home</a>
+              <a class="nav-link" aria-current="page" href="/">Home</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/store">Store</a>
-            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownStore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Store
+              </a>
+              {%if user.id == 3 %}
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownStore">
+                  <li><a class="dropdown-item" href="/store">Store 1</a></li>
+                  <!-- Add more dropdown items as needed -->
+                  
+                  <li><a class="dropdown-item" href="/store2">Store 2</a></li>
+                  <!-- Example of another dropdown item -->
+              
+
+              {%elif user.id == 1 %}
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownStore">
+                  <li><a class="dropdown-item" href="/store">Store 1</a></li>
+                  <!-- Add more dropdown items as needed -->
+                
+              
+
+              {%elif user.id == 2 %}
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownStore">
+                  <li><a class="dropdown-item" href="/store2">Store 2</a></li>
+                  <!-- Add more dropdown items as needed -->
+                
+              {%endif%}
+
+               
+              </ul>
+          </li>
             <li class="nav-item">
               <a class="nav-link" href="/logout">Logout</a>
             </li>
-           <!-- <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul> -->
-            </li>
-            <!--
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-            </li>-->
+           
           </ul>
           <form class="d-flex">
             <span class="navbar-text me-2">{{user.first_name}}</span>
           </form>
+
+          
+         
+
+
+
     
           {% else %} 
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
+              <a class="nav-link" href="/sign-up">Sign Up</a>
+            </li>
+    
+            
+            <li class="nav-item">
               <a class="nav-link" href="/login">Login</a>
             </li>
     
-            <li class="nav-item">
-              <a class="nav-link" href="/logout">Logout</a>
-            </li>
-         </ul>
-            {% endif %}
+            
+            
+
+        {%endif%}
         </div>
       </div>
     </nav>
@@ -86,6 +109,23 @@
       </div>
     </div>
     {% endif %} {% endfor %} {% endif %} {% endwith %}
+
+
+    {% with message2s = get_flashed_messages(with_categories=true) %} {% if
+      message2s %} {% for category, message2 in message2s %} {% if category ==
+      'product-true' %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <div class="d-flex justify-content-between">
+          <div>{{ message }}</div>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>
+      {% endif %} {% endfor %} {% endif %} {% endwith %}
+  
+
+
+
+
     <div class="container">{% block content %} {% endblock %}</div>
 
     

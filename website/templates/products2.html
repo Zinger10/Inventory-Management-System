@@ -1,0 +1,133 @@
+{% extends "base.html" %} {% block title %}Products Store 2{% endblock %} {% block
+    content %}
+    <br>
+  <br>
+  <h1 class="mt-4 mb-4"> {{ tablename2 }}</h1>
+  <br>
+    <div class="table-responsive">
+      <table class="table table-hover text-center">
+          <thead class="table-info">
+            <tr>
+              <th>Product ID</th>
+              <th>Name</th>
+              <th>Price (RM)</th>
+              <th>Quantity</th>
+            <!--<th>Total Sales (RM)</th>--> 
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for product2 in product2s %}
+                  <tr>
+                      <td>{{ product2.id if product2.id is not none else "N/A" }}</td>
+                      <td>{{ product2.name }}</td>
+                      <td>{{ product2.price }}</td>
+                      <td>{{ product2.quantity }}</td>
+                     <!-- <td>{{ product2.quantity * product2.price}}</td>-->
+                      <td>
+                        <div class="row justify-content-center">
+                          <div class="col-md-4 text-center">
+                            <form method="post" action="/edit_products2">
+                              <input type="hidden" name="product_id" value="{{ product2.id }}">
+                              <button type="submit" class="btn btn-success">Edit</button>
+                            </form>
+                          </div>
+                          {%if user.id == 3%}
+                            <div class="col-md-4 text-center">
+                              <form method="post" action="/delete2">
+                                <input type="hidden" name="product_id" value="{{ product2.id }}" id ="product_id">
+                                <button type="submit"  class = "btn btn-danger">Delete
+                                </button>
+                              </form>
+                            </div>
+
+                            {%elif user.id == 2%}
+                              <div class="col-md-4 text-center">
+                                <form method="post" action="/delete2">
+                                  <input type="hidden" name="product_id" value="{{ product2.id }}" id ="product_id">
+                                  <button type="submit" disabled class = "btn btn-danger">Delete
+                                  </button>
+                                </form>
+                              </div>
+                          {%endif%}
+                        </div>
+                      </td>
+                  </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        
+      
+        
+      {%if user.id == 3%}
+        <a href =""   name="id-target" data-bs-toggle="modal" data-bs-target="#myModal">Add Product</a>
+      {%endif%}        
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                 
+                </button>
+              </div>
+              <div class="modal-body">
+                <form method="post" id="form-content">
+                  <div class="form-group">
+                    <label for="product-id" class="col-form-label">New Product Id:</label>
+                    <textarea name="id-content" class="form-control" id="id-content"></textarea>
+                 
+                    <label for="product-name" class="col-form-label">New Product name:</label>
+                    <textarea name="name-content" class="form-control" id="name-content"></textarea>
+                  
+                  
+                    <label for="product-price" class="col-form-label">New Product Price:</label>
+                    <textarea name="price-content" class="form-control" id="price-content"></textarea>
+                  
+              
+                    <label for="product-quantity" class="col-form-label">New Product Quantity:</label>
+                    <textarea name="quantity-content" class="form-control" id="quantity-content"></textarea>
+               </div>   
+              </div>
+              <div class="modal-footer">
+                <button type="submit" onClick="addProduct()" class="btn btn-primary" name="submit" value="content">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+  
+      
+  <script>
+  
+  function addProduct() {
+    var id = document.getElementById("id-content").value;
+    var name = document.getElementById("name-content").value;
+    var price = document.getElementById("price-content").value;
+    var quantity = document.getElementById("quantity-content").value;
+  
+    
+    fetch("/add2", {
+      method: "POST",
+      body: JSON.stringify({ id: id, name: name , price : price, quantity : quantity }),
+    }).then((_res) => {
+      window.location.href = "/store2";
+    });
+  }
+  
+  function deleteProduct(){
+    var id = document.getElementById("product_id").value
+  
+    fetch("/delete", {
+      method: "POST",
+      body: JSON.stringify({ id: id }),
+    }).then((_res) => {
+      window.location.href = "/store2";
+    });
+  
+  }
+  
+  </script>
+  
+    {% endblock %}
+  

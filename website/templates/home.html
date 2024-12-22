@@ -1,8 +1,120 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-    %}
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+
     
 
+    <div class="chart-container">
+        {%if user.id == 3 %}
+            <h1 class="mt-2 mb-2"> {{ tablename1 }}</h1>
+            <canvas id="myChart1" width="400" height="400"></canvas>
+            <br>
+            <h1 class="mt-2 mb-2"> {{ tablename2 }}</h1>
+            <canvas id="myChart2" width="400" height="400"></canvas>
+        {%elif user.id == 1 %}
+            <h1 class="mt-2 mb-2"> {{ tablename1 }}</h1>
+            <canvas id="myChart1" width="400" height="400"></canvas>
+
+        {%elif user.id == 2 %}
+            <h1 class="mt-2 mb-2"> {{ tablename2 }}</h1>
+            <canvas id="myChart2" width="400" height="400"></canvas>
+       {%endif%} 
+
+    </div>
+
+   {%if user.id  == 3%}
+   <script>
+    // Fetch data from Flask route and create first chart
+    fetch('/get_chart_data')
+        .then(response => response.json())
+        .then(data => {
+            const ctx1 = document.getElementById('myChart1').getContext('2d');
+            const myChart1 = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Chart Data',
+                        data: data.values,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                }
+            });
+        });
+
+    // Fetch data from Flask route and create second chart
+    fetch('/get_chart_data2')
+        .then(response => response.json())
+        .then(data2 => {
+            const ctx2 = document.getElementById('myChart2').getContext('2d');
+            const myChart2 = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: data2.labels,
+                    datasets: [{
+                        label: 'Chart Data',
+                        data: data2.values,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                }
+            });
+        });
+    </script>
+    
+
+    {%elif user.id  == 1%}
+
+        <script>
+            // Fetch data from Flask route and create first chart
+            fetch('/get_chart_data')
+                .then(response => response.json())
+                .then(data => {
+                    const ctx1 = document.getElementById('myChart1').getContext('2d');
+                    const myChart1 = new Chart(ctx1, {
+                        type: 'bar',
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                                label: 'Chart Data',
+                                data: data.values,
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1
+                            }]
+                        }
+                    });
+                });
+
+        </script>
+
+    
+    {%elif user.id == 2%}
+        <script>
+        // Fetch data from Flask route and create second chart
+        fetch('/get_chart_data2')
+            .then(response => response.json())
+            .then(data2 => {
+                const ctx2 = document.getElementById('myChart2').getContext('2d');
+                const myChart2 = new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                        labels: data2.labels,
+                        datasets: [{
+                            label: 'Chart Data',
+                            data: data2.values,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    }
+                });
+            });
+        </script>
 
 
+    {%endif%}
 
-    {% endblock %}
+    
+{% endblock %}
